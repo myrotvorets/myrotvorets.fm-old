@@ -1,0 +1,30 @@
+#playlist {
+	border: 1px solid $primary-color;
+	border-bottom-left-radius: $border-radius;
+	border-bottom-right-radius: $border-radius;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	counter-reset: my-counter;
+	overflow: auto;
+	min-height: 10rem;
+
+	li {
+		cursor: pointer;
+		counter-increment: my-counter;
+		padding: .5rem 0 .5rem 1rem;
+
+		&::before {
+			content: counter(my-counter) ". ";
+			font-weight: bold;
+		}
+
+		&.active {
+			background: $background-alt-color;
+
+			&::before {
+				background: $background-alt-color;
+			}
+		}
+	}
+}

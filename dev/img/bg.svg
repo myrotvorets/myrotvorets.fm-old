@@ -1,0 +1,10 @@
+<svg viewBox="0 0 1 1" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+	<defs>
+		<style>
+			g { display: none; }
+			g:target { display: inline; }
+		</style>
+	</defs>
+	<g id="fec602"><path fill="#fec602" d="M0 0h100v100H0z"/></g>
+	<g id="053598"><path fill="#053598" d="M0 0h100v100H0z"/></g>
+</svg>

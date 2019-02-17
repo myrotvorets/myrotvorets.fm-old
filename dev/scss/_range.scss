@@ -1,0 +1,51 @@
+input[type=range].range {
+	$thumb-size: 12px;
+	$thumb-color: $primary-color;
+
+	-webkit-appearance: none;
+	background: transparent;
+	outline: none;
+
+	&:focus, &:active {
+		outline: none;
+	}
+
+	&::-ms-track {
+		width: 100%;
+		cursor: pointer;
+		background: transparent; 
+		border-color: transparent;
+		color: transparent;
+	}
+
+	&::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+		border: 1px solid #000000;
+		height: $thumb-size;
+		width: $thumb-size;
+		border-radius: 50%;
+		background: $thumb-color;
+		cursor: pointer;
+	}
+
+	&::-moz-range-thumb {
+		box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+		border: 1px solid #000000;
+		height: $thumb-size;
+		width: $thumb-size;
+		border-radius: 50%;
+		background: $thumb-color;
+		cursor: pointer;
+	}
+
+	&::-ms-thumb {
+		box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+		border: 1px solid #000000;
+		height: $thumb-size;
+		width: $thumb-size;
+		border-radius: 50%;
+		background: $thumb-color;
+		cursor: pointer;
+	}
+}

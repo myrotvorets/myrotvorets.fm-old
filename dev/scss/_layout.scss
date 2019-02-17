@@ -1,0 +1,64 @@
+html {
+	font-size: $font-size;
+}
+
+@media screen and (min-width: $viewport-m) and (max-width: $viewport-l) {
+	html {
+		font-size: $font-size-m;
+	}
+}
+
+@media screen and (min-width: $viewport-l) {
+	html {
+		font-size: $font-size-l;
+	}
+}
+
+body {
+	background: #001e3e;
+	color: #fec602;
+	font-family: $font-family;
+	line-height: 1.5;
+}
+
+html, body, #container {
+	height: 100%;
+}
+
+header {
+	margin-bottom: 1rem;
+}
+
+.txt--center {
+	text-align: center;
+}
+
+.bold {
+	font-weight: bold; 
+}
+
+.small {
+	font-size: .707em;
+}
+
+.img-responsive {
+	max-width: 100%;
+}
+
+.block-centered {
+	display: block;
+	margin: 0 auto;
+}
+
+div[role="alert"] {
+	border-radius: $border-radius;
+}
+
+.bg--red {
+	background-color: #900;
+}
+
+.fnt--white {
+	color: #FFF;
+}
+

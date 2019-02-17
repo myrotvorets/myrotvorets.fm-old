@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="uk-UA">
+<head>
+<meta charset="utf-8"/>
+<title>Myrotvorets FM</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+<meta name="description" content="Радіо «Миротворець»"/>
+<!-- DEV -->
+<script src="js/scss-loader.js"></script>
+<link type="text/scss" href="scss/all.scss"/>
+<!-- ENDDEV -->
+<noscript id="deferred-styles">
+	<link rel="stylesheet" href="css/combined.min.css"/>
+</noscript>
+</noscript>
+<link rel="icon" href="img/logo32.png" sizes="32x32"/>
+<link rel="icon" href="img/logo192.png" sizes="192x192"/>
+<link rel="apple-touch-icon-precomposed" href="img/logo180.png"/>
+<meta name="msapplication-TileImage" content="img/logo70.png"/>
+<meta name="theme-color" content="#001E3E"/>
+<link rel="manifest" href="manifest.json"/>
+</head>
+<body>
+	<div class="measure px1 d-flex flex-column" id="container">
+		<header>
+			<h1 class="m0 p0 txt--center"><img src="img/header.png" class="img-responsive block-centered" alt="Radio Myrotvorets"/></h1>
+		</header>
+
+		<noscript>
+			<div class="bg--red fnt--white bold p1 mb1 txt--center" role="alert">
+				Для роботи потрібно JavaScript.
+			</div>
+		</noscript>
+
+		<div class="bg--red fnt--white bold p1 mb1 txt--center" role="alert" id="error" hidden="hidden"></div>
+
+		<div id="player" class="p1" hidden="hidden">
+			<progress class="amplitude-song-played-progress" value="0" hidden="hidden"></progress>
+			<progress class="amplitude-buffered-progress" value="0" hidden="hidden"></progress>
+
+			<div class="d-flex flex-align-items-center mb1">
+				<div class="pr1">
+					<button class="amplitude-mute" aria-label="Вимкнути звук">
+						<svg viewBox="0 0 47 47">
+							<path d="M14 18v12h8l10 10V8L22 18h-8"/>
+						</svg>
+					</button>
+					<button class="amplitude-volume-down" aria-label="Тихіше">
+						<svg viewBox="0 0 47 47">
+							<path d="M37 24c0-3.53-2.04-6.58-5-8.05v16.11c2.96-1.48 5-4.53 5-8.06m-27-6v12h8l10 10V8L18 18h-8"/>
+						</svg>
+					</button>
+					<button class="amplitude-volume-up" aria-label="Гучніше">
+						<svg viewBox="0 0 47 47">
+							<path d="M6 18v12h8l10 10V8L14 18H6m27 6c0-3.53-2.04-6.58-5-8.05v16.11c2.96-1.48 5-4.53 5-8.06M28 6.46v4.13c5.78 1.72 10 7.07 10 13.41s-4.22 11.69-10 13.41v4.13c8.01-1.82 14-8.97 14-17.54S36.01 8.28 28 6.46"/>
+						</svg>
+					</button>
+				</div>
+				<div class="volume flex-grow-1">
+					<div class="volume-bar"></div>
+					<input type="range" class="range amplitude-volume-slider" aria-label="Регулятор гучності"/>
+				</div>
+			</div>
+
+			<div class="d-flex flex-align-items-center mb1">
+				<div class="progress flex-grow-1">
+					<div class="progress-bar"></div>
+					<input type="range" class="range amplitude-song-slider" step=".1" value="0" aria-label="Прогрес відтворення" disabled="disabled"/>
+				</div>
+				<div class="time-container pl1 small">
+					<span class="amplitude-current-time"></span>
+					/
+					<span class="amplitude-duration-time"></span>
+				</div>
+			</div>
+
+			<div class="meta-container mb1">
+				<span data-amplitude-song-info="artist" class="bold"></span> —
+				<span data-amplitude-song-info="name"></span>
+			</div>
+
+			<div class="control-container d-flex flex-justify-evenly">
+				<button class="amplitude-prev" aria-label="Попередня">
+					<svg viewBox="0 0 47 47">
+						<path d="M12 12h4v24h-4zm7 12l17 12V12"/>
+					</svg>
+				</button>
+				<button class="amplitude-play-pause" aria-label="Відтворення / пауза">
+					<svg viewBox="0 0 47 47">
+						<path d="M16 10v28l22-14"/>
+					</svg>
+					<svg viewBox="0 0 47 47">
+						<path d="M12 38h8V10h-8v28m16-28v28h8V10h-8"/>
+					</svg>
+				</button>
+				<button class="amplitude-stop" disabled="disabled" aria-label="Стоп">
+					<svg viewBox="0 0 47 47">
+						<path d="M12 12h24v24H12"/>
+					</svg>
+				</button>
+				<button class="amplitude-next" aria-label="Наступна">
+					<svg viewBox="0 0 47 47">
+						<path d="M12 36l17-12-17-12v24m20-24v24h4V12h-4"/>
+					</svg>
+				</button>
+				<button class="amplitude-shuffle" aria-label="Випадковий порядок">
+					<svg viewBox="0 0 47 47">
+						<path d="M21.17 18.34L10.83 8 8 10.83l10.34 10.34 2.83-2.83M29 8l4.09 4.09L8 37.17 10.83 40l25.09-25.09L40 19V8H29m.66 18.83l-2.83 2.83 6.26 6.26L29 40h11V29l-4.09 4.09-6.25-6.26"/>
+					</svg>
+				</button>
+				<button class="amplitude-repeat" aria-label="Закільцювати список">
+					<svg viewBox="0 0 47 47">
+						<path d="M14 14h20v6l8-8-8-8v6H10v12h4v-8m20 20H14v-6l-8 8 8 8v-6h24V26h-4v8"/>
+					</svg>
+				</button>
+			</div>
+		</div>
+		<ol class="playlist flex-grow-1" id="playlist" hidden="hidden">
+		</ol>
+		<footer class="txt--center py1">
+			Copyright &copy; 2019 <a href="https://myrotvorets.center/" target="_blank" rel="noopener">Myrotvorets Research Center</a>
+		</footer>
+	</div>
+
+	<template id="playlist-item">
+		<li data-index=""><span class="artist bold"></span> — <span class="song"></span></li>
+	</template>
+
+<!-- build:js js/combined.min.js async="async" -->
+<script src="js/amplitude.js"></script>
+<script src="js/domready.js"></script>
+<script src="js/app.js"></script>
+<script src="js/swreg.js"></script>
+<!-- endbuild -->
+<!-- DEV
+<script>
+var cb = function() {
+	var d = document, ds = d.getElementById("deferred-styles");
+	ds.parentNode.removeChild(ds);
+	d.head.insertAdjacentHTML('beforeend', ds.textContent);
+};
+var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
+raf ? raf(cb) : document.addEventListener('DOMContentLoaded', cb);
+</script>
+ENDDEV -->
+</body>
+</html>

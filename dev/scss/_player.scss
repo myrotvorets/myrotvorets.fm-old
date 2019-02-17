@@ -1,0 +1,76 @@
+#player {
+	border: 1px solid $primary-color;
+	border-bottom: 0;
+	border-top-left-radius: $border-radius;
+	border-top-right-radius: $border-radius;
+
+	button {
+		padding: 3px;
+		border: 0;
+		outline: none;
+		background: $background-alt-color;
+		border-radius: $border-radius;
+		box-shadow: 2px 2px 2px #000000, 0 0 2px #0d0d0d;
+
+		> svg {
+			width: 25px;
+			height: 25px;
+			display: block;
+			fill: $primary-color;
+		}
+	}
+
+	.control-container button > svg {
+		width: 40px;
+		height: 40px;
+	}
+
+	button[disabled] > svg {
+		fill: $disabled-color;
+	}
+
+	.amplitude-play-pause > svg:nth-child(1) {
+		display: none;
+	}
+
+	.amplitude-play-pause.amplitude-paused {
+		> svg:nth-child(1) {
+			display: block;
+		}
+
+		> svg:nth-child(2) {
+			display: none; 
+		}
+	}
+
+	.amplitude-mute.amplitude-muted > svg, .amplitude-shuffle.amplitude-shuffle-on > svg, .amplitude-repeat.amplitude-repeat-on > svg { 
+		fill: $highlight-color;
+	}
+
+	.progress, .volume {
+		position: relative;
+		height: 14px;
+	}
+
+	.progress *, .volume * {
+		position: absolute;
+		height: 12px;
+		margin: 0;
+		padding: 0;
+		border: 1px solid $primary-color;
+		border-radius: 15px;
+		background: transparent;
+		width: 100%;
+	}
+
+	.volume-bar {
+		background: url(../img/bg.svg#fec602) repeat-y;
+		background-size: 0 100%
+	}
+
+	.progress-bar {
+		background: url(../img/bg.svg#fec602), url(../img/bg.svg#53598);
+		background-repeat: repeat-y;
+		background-size: 0 100%, 0% 100%;
+	}
+}
