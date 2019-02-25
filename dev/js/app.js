@@ -81,10 +81,20 @@ DOMReady(() => {
 		listitem.scrollIntoViewIfNeeded();
 	};
 
+	let songChangeHandler = () => {
+		const meta     = Amplitude.getActiveSongMetadata();
+		const artist   = meta.artist || '';
+		const name     = meta.name   || '';
+
+		const title    = (artist ? `${artist} — ` : '') + name + ' — Myrotvorets.FM';
+		document.title = title;
+	};
+
 	let playHandler = () => {
 		btn_stop.removeAttribute('disabled');
 		song_slider.removeAttribute('disabled');
 		updateSelection();
+		songChangeHandler();
 	};
 
 	let stopHandler = () => {
@@ -147,6 +157,7 @@ DOMReady(() => {
 						"timeupdate": timeProgressUpdateHandler,
 						"progress": timeProgressUpdateHandler,
 						"loadeddata": timeProgressUpdateHandler,
+						"song_change": songChangeHandler,
 						"error": () => {
 							let err = Amplitude.getAudio().error.message;
 							showError(`Сталася якась важка прикрість (${err}). Перевірте, будь ласка, чи працює Інтернет.`);
