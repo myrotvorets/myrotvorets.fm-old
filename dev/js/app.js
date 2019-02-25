@@ -1,6 +1,6 @@
 DOMReady(() => {
 	const base_url     = "https://psb4ukr.natocdn.net/mp3/";
-	const playlist_url = base_url + "playlist.txt";
+	const playlist_url = base_url + "playlist.txt?utm_source=myrfm";
 
 	const d            = document;
 	const player       = d.getElementById('player');
