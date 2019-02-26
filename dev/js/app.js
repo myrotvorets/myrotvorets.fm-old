@@ -13,10 +13,27 @@ DOMReady(() => {
 	const vol_up       = player.querySelector('.amplitude-volume-up');
 	const vol_down     = player.querySelector('.amplitude-volume-down');
 
+	const shuffle_btn  = player.querySelector('.amplitude-shuffle');
+	const repeat_btn   = player.querySelector('.amplitude-repeat');
+
 	const progress_bar = player.querySelector('.progress-bar');
 	const song_slider  = player.querySelector('.amplitude-song-slider')
 
 	const btn_stop     = player.querySelector('.amplitude-stop');
+
+	let storageAvailable = (type) => {
+		try {
+			let storage = window[type], x = '__storage_test__';
+			storage.setItem(x, x);
+			storage.removeItem(x);
+			return true;
+		}
+		catch (e) {
+			return false;
+		}
+	};
+
+	const has_ls = storageAvailable('localStorage');
 
 	let hide_err_timeout = null;
 	let showError = (s) => {
@@ -60,6 +77,10 @@ DOMReady(() => {
 
 		vol_bar.style.backgroundSize = val + '% 100%';
 		vol_bar.setAttribute('title', `Гучність: ${val}%`);
+
+		if (has_ls) {
+			localStorage.setItem('volume', val);
+		}
 	};
 
 	let timeProgressUpdateHandler = () => {
@@ -145,9 +166,17 @@ DOMReady(() => {
 			});
 
 			if (index) {
+				let volume = 50, shuffle = true, repeat = false;
+				if (has_ls) {
+					volume  = localStorage.getItem('volume') || 50;
+					shuffle = parseInt(localStorage.getItem('shuffle') || 1, 10);
+					repeat  = parseInt(localStorage.getItem('repeat') || 0, 10);
+				}
+
 				Amplitude.init({
 					"songs": songs,
-					"shuffle_on": true,
+					"volume": parseInt(volume, 10),
+					"shuffle_on": !!shuffle,
 					"preload": "none",
 					"callbacks": {
 						"play": playHandler,
@@ -162,10 +191,17 @@ DOMReady(() => {
 							let err = Amplitude.getAudio().error.message;
 							showError(`Сталася якась важка прикрість (${err}). Перевірте, будь ласка, чи працює Інтернет.`);
 							hide_err_timeout = setTimeout(hideError, 10000);
+						},
+						"initialized": () => {
+							if (has_ls) {
+								shuffle_btn.addEventListener('click', (e) => localStorage.setItem('shuffle', Amplitude.getShuffle() ? 1 : 0));
+								repeat_btn.addEventListener('click',  (e) => localStorage.setItem('repeat',  Amplitude.getRepeat()  ? 1 : 0));
+							}
 						}
 					}
 				});
 
+				Amplitude.setRepeat(!!repeat);
 				player.removeAttribute('hidden');
 				playlist.removeAttribute('hidden');
 				setTimeout(updateSelection, 100);
