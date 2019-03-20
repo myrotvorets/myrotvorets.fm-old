@@ -315,10 +315,6 @@ var Core = function () {
     _visualizations2.default.stop();
     _visualizations2.default.run();
 
-    if (window.AudioContext && _config2.default.context.state == "suspended") {
-        _config2.default.context.resume()
-    }
-
     /*
     If the audio is live we re-conenct the stream.
     */
@@ -4616,6 +4612,27 @@ var Initializer = function () {
         Configure the Web Audio API If It's available.
       */
       _fx2.default.configureWebAudioAPI();
+
+      /*
+         Activates the audio context after an event for the user.
+      */
+      document.documentElement.addEventListener("mousedown", function () {
+        if (_config2.default.context.state !== 'running') {
+          _config2.default.context.resume();
+        }
+      });
+
+      document.documentElement.addEventListener("keydown", function () {
+        if (_config2.default.context.state !== 'running') {
+          _config2.default.context.resume();
+        }
+      });
+
+      document.documentElement.addEventListener("keyup", function () {
+        if (_config2.default.context.state !== 'running') {
+          _config2.default.context.resume();
+        }
+      });
 
       /*
         Set the user waveform settings if provided.

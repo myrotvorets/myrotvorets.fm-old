@@ -155,33 +155,25 @@ gulp.task('critical', gulp.series(['styles',
 	}
 ]));
 
-gulp.task('inline-hash:scripts', gulp.series([(done) => {
-	gulp.src('dist/*.html')
-		.pipe(hashmap({ what: 'script' }, (hashes) => {
-			let fragment = hashes.map(h => `'${h}'`).join(" ");
-			gulp.src('dist/*.html')
-				.pipe(replace(/script-src 'self'[^;]*/, "script-src 'self' " + fragment))
-				.pipe(gulp.dest('dist/'))
-			;
-
-			done();
+gulp.task('inline-hash', () => {
+	return gulp.src('dist/*.html')
+		.pipe(hashmap({
+			what: 'script',
+			replace_cb: (s, hashes) => {
+				let fragment = hashes.join(" ");
+				return s.replace(/script-src 'self'[^;]*/, "script-src 'self' " + fragment);
+			}
 		}))
-	;
-}]));
-
-gulp.task('inline-hash:styles', gulp.series(['critical', (done) => {
-	gulp.src('dist/*.html')
-		.pipe(hashmap({ what: 'style' }, (hashes) => {
-			let fragment = hashes.map(h => `'${h}'`).join(" ");
-			gulp.src('dist/*.html')
-				.pipe(replace(/style-src 'self'[^;]*/, "style-src 'self' " + fragment))
-				.pipe(gulp.dest('dist/'))
-			;
-
-			done();
+		.pipe(hashmap({
+			what: 'style',
+			replace_cb: (s, hashes) => {
+				let fragment = hashes.join(" ");
+				return s.replace(/style-src 'self'[^;]*/, "style-src 'self' " + fragment);
+			}
 		}))
+		.pipe(gulp.dest('dist/'))
 	;
-}]));
+});
 
 gulp.task('copy', () => {
 	const src  = ['dev/manifest.json'];
@@ -332,4 +324,4 @@ gulp.task('download', function(done) {
 	});
 });
 
-gulp.task('default', gulp.series([gulp.parallel(['scripts', 'images']), 'inline-hash:styles', 'sri', 'gitrev', 'bundle-sw', 'inline-hash:scripts', 'copy']));
+gulp.task('default', gulp.series([gulp.parallel(['scripts', 'images']), 'critical', 'inline-hash', 'sri', 'gitrev', 'bundle-sw', 'copy']));
