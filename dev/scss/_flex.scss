@@ -17,3 +17,7 @@
 .flex-justify-evenly {
 	justify-content: space-evenly;
 }
+
+@supports (-ms-ime-align: auto) {
+	.flex-justify-evenly { justify-content: space-around; }
+}

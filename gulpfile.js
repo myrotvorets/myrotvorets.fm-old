@@ -24,6 +24,7 @@ const touch        = require('gulp-touch-fd');
 const useref       = require('gulp-useref');
 const gulpif       = require('gulp-if');
 const hashmap      = require('inline-csp-hash');
+const babel        = require('gulp-babel');
 
 const config       = require('./.internal/config.json');
 
@@ -95,6 +96,9 @@ gulp.task('scripts', gulp.series(['html', () => {
 
 	return gulp.src(src)
 		.pipe(sourcemaps.init())
+		.pipe(babel({
+			presets: ['@babel/env']
+		}))
 		.pipe(uglify())
 		.pipe(rename('combined.min.js'))
 		.pipe(sourcemaps.write('.'))
