@@ -96,9 +96,9 @@ gulp.task('scripts', gulp.series(['html', () => {
 
 	return gulp.src(src)
 		.pipe(sourcemaps.init())
-		.pipe(babel({
-			presets: ['@babel/env']
-		}))
+//		.pipe(babel({
+//			presets: ['@babel/env']
+//		}))
 		.pipe(uglify())
 		.pipe(rename('combined.min.js'))
 		.pipe(sourcemaps.write('.'))
