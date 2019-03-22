@@ -29,6 +29,7 @@ const babel        = require('gulp-babel');
 const config       = require('./.internal/config.json');
 const debug        = require('gulp-debug');
 const lazypipe     = require('lazypipe');
+const filter       = require('gulp-filter');
 
 gulp.task('html', () => {
 	const src  = 'dev/index.html';
@@ -39,18 +40,13 @@ gulp.task('html', () => {
 		.pipe(replace('\nENDDEV -->\n', ''))
 		.pipe(useref({},
 			lazypipe().pipe(sourcemaps.init, { loadMaps: true }),
-			lazypipe().pipe(() => {
-				return gulpif('*.js',
-					babel({
-						presets: ['@babel/preset-env'],
-						ignore: ['dev/js/amplitude.js']
-					}).pipe(uglify())
-				);
-			}),
-			lazypipe().pipe(() => {
-				return gulpif('*.scss', sass({ errLogToConsole: true, outputStyle: 'expanded', precision: 5 }))
-			})
+			lazypipe().pipe(() => gulpif('**/*.scss', sass({ errLogToConsole: true, outputStyle: 'expanded', precision: 5 }))),
+			lazypipe().pipe(() => gulpif('**/*.js', babel({
+				presets: ['@babel/preset-env'],
+				ignore: ['dev/js/amplitude.js']
+			})))
 		))
+		.pipe(gulpif('*.js', uglify()))
 		.pipe(gulpif('*.css', postcss([
 			autoprefixer({browsers: '> 5%'}),
 			cssnano({
