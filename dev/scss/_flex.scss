@@ -21,3 +21,7 @@
 @supports (-ms-ime-align: auto) {
 	.flex-justify-evenly { justify-content: space-around; }
 }
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	.flex-justify-evenly { justify-content: space-around; }
+}
