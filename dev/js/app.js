@@ -133,14 +133,14 @@ DOMReady(() => {
 		Amplitude.playSongAtIndex(idx-1);
 	});
 
-	fetch(playlist_url).then((response) => {
-		if (response.ok) {
-			return response.text();
+	const xhr = new XMLHttpRequest();
+	xhr.addEventListener('load', function() {
+		if (this.status !== 200 || this.responseText === null) {
+			showError('Під час завантаження списку відтворення сталася помилка. Будь-ласка, спробуйте пізніше.');
+			return;
 		}
 
-		throw new Error('Під час завантаження списку відтворення сталася помилка. Будь-ласка, спробуйте пізніше.');
-	}).then((t) => {
-		t = t.replace(/^\ufeff/, '').replace(/\r/, '').split("\n");
+		let t = this.responseText.replace(/^\ufeff/, '').replace(/\r/, '').split("\n");
 		if (t.length) {
 			let index    = 0;
 			let songs    = [];
@@ -207,8 +207,11 @@ DOMReady(() => {
 				setTimeout(updateSelection, 100);
 			}
 			else {
-				throw new Error('Список відтворення порожній. Будь-ласка, спробуйте пізніше.');
+				showError('Список відтворення порожній. Будь-ласка, спробуйте пізніше.');
 			}
 		}
-	}).catch((e) => showError(e.message));
+	});
+
+	xhr.open('GET', playlist_url);
+	xhr.send();
 });
