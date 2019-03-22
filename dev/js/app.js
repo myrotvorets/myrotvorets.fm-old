@@ -142,8 +142,14 @@ DOMReady(() => {
 
 		let t = this.responseText.replace(/^\ufeff/, '').replace(/\r/, '').split("\n");
 		if (t.length) {
-			let index    = 0;
-			let songs    = [];
+			let index = 0;
+			let songs = [];
+			const ul  = d.createElement('ul');
+			const df  = d.createDocumentFragment();
+
+			ul.insertAdjacentHTML('afterbegin', template.textContent);
+			df.appendChild(ul.firstChild);
+
 			t.forEach((line) => {
 				let items = line.split("\t");
 				if (items.length === 3) {
@@ -157,7 +163,7 @@ DOMReady(() => {
 
 					songs.push(song);
 
-					let clone = d.importNode(template.content, true);
+					let clone = df.cloneNode(true);
 					clone.querySelector('li').setAttribute('data-index', index);
 					clone.querySelector('.artist').appendChild(d.createTextNode(items[0]));
 					clone.querySelector('.song').appendChild(d.createTextNode(items[1]));
