@@ -27,48 +27,37 @@ const hashmap      = require('inline-csp-hash');
 const babel        = require('gulp-babel');
 
 const config       = require('./.internal/config.json');
-
-gulp.task('scss', () => {
-	const src  = ['dev/scss/all.scss'];
-	const dest = 'dev/css';
-
-	return gulp.src(src)
-		.pipe(sass({ errLogToConsole: true, outputStyle: 'expanded', precision: 5 }))
-		.pipe(gulp.dest(dest))
-	;
-});
-
-gulp.task('styles', gulp.series(['scss', () => {
-	const src  = ['dev/css/all.css'];
-	const dest = 'dist/css';
-
-	return gulp.src(src)
-		.pipe(sourcemaps.init())
-		.pipe(rename("combined.min.css"))
-		.pipe(postcss([
-			autoprefixer({browsers: '> 5%'}),
-			cssnano({
-				preset: ['default', {
-					discardComments: {
-						removeAll: true,
-					},
-				}]
-			})
-		]))
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest(dest))
-	;
-}]));
+const debug        = require('gulp-debug');
+const lazypipe     = require('lazypipe');
 
 gulp.task('html', () => {
 	const src  = 'dev/index.html';
 	const dest = 'dist';
 
 	return gulp.src(src)
-		.pipe(replace(/<!-- DEV -->.*?<!-- ENDDEV -->(\n)?/s, ''))
 		.pipe(replace('<!-- DEV\n', ''))
 		.pipe(replace('\nENDDEV -->\n', ''))
-		.pipe(useref())
+		.pipe(useref({},
+			lazypipe().pipe(sourcemaps.init, { loadMaps: true }),
+			lazypipe().pipe(() => {
+				return gulpif('*.js',
+					babel({
+						presets: ['@babel/preset-env'],
+						ignore: ['dev/js/amplitude.js']
+					}).pipe(uglify())
+				);
+			}),
+			lazypipe().pipe(() => {
+				return gulpif('*.scss', sass({ errLogToConsole: true, outputStyle: 'expanded', precision: 5 }))
+			})
+		))
+		.pipe(gulpif('*.css', postcss([
+			autoprefixer({browsers: '> 5%'}),
+			cssnano({
+				preset: ['default', { discardComments: { removeAll: true } }]
+			})
+		])))
+		.pipe(sourcemaps.write('.'))
 		.pipe(gulpif('*.html', htmlmin({
 			removeComments: true,
 			collapseWhitespace: true,
@@ -88,23 +77,6 @@ gulp.task('html', () => {
 		.pipe(gulp.dest(dest))
 	;
 });
-
-
-gulp.task('scripts', gulp.series(['html', () => {
-	const src  = ['dist/js/combined.min.js'];
-	const dest = 'dist/js';
-
-	return gulp.src(src)
-		.pipe(sourcemaps.init())
-//		.pipe(babel({
-//			presets: ['@babel/env']
-//		}))
-		.pipe(uglify())
-		.pipe(rename('combined.min.js'))
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest(dest))
-	;
-}]));
 
 gulp.task('images', () => {
 	const src  = 'dev/img/*';
@@ -128,7 +100,7 @@ gulp.task('images', () => {
 	;
 });
 
-gulp.task('critical', gulp.series(['styles',
+gulp.task('critical', gulp.series([
 	() => {
 		const src  = ['dist/index.html'];
 		const dest = 'dist';
@@ -328,4 +300,4 @@ gulp.task('download', function(done) {
 	});
 });
 
-gulp.task('default', gulp.series([gulp.parallel(['scripts', 'images']), 'critical', 'inline-hash', 'sri', 'gitrev', 'bundle-sw', 'copy']));
+gulp.task('default', gulp.series([gulp.parallel(['html', 'images']), 'critical', 'inline-hash', 'sri', 'gitrev', 'bundle-sw', 'copy']));

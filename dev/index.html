@@ -6,17 +6,20 @@
 <meta http-equiv="Content-Security-Policy" content="block-all-mixed-content; connect-src 'self' https://psb4ukr.natocdn.net; font-src 'none'; form-action 'none'; frame-src 'none'; img-src 'self'; manifest-src 'self'; media-src https://psb4ukr.natocdn.net; object-src 'none'; require-sri-for script style; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; worker-src 'self';"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 <meta name="description" content="Радіо «Миротворець»"/>
-<!-- DEV -->
+<!-- build:remove -->
 <script src="js/scss-loader.js"></script>
 <link type="text/scss" href="scss/all.scss"/>
-<!-- ENDDEV -->
+<!-- endbuild -->
 <noscript id="deferred-styles">
-	<link rel="stylesheet" href="css/combined.min.css"/>
+<!-- build:css css/combined.min.css -->
+	<link type="text/css" href="scss/all.scss"/>
+<!-- endbuild -->
+<!--	<link rel="stylesheet" href="css/combined.min.css"/> -->
 </noscript>
 </noscript>
 <link rel="icon" href="img/logo32.png" sizes="32x32"/>
 <link rel="icon" href="img/logo192.png" sizes="192x192"/>
-<link rel="apple-touch-icon-precomposed" href="img/logo180.png"/>
+<link rel="apple-touch-icon" href="img/logo180.png"/>
 <meta name="msapplication-TileImage" content="img/logo70.png"/>
 <meta name="theme-color" content="#001E3E"/>
 <link rel="manifest" href="manifest.json"/>
