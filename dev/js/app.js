@@ -86,7 +86,9 @@ DOMReady(() => {
 	let timeProgressUpdateHandler = () => {
 		let progress1 = Amplitude.getSongPlayedPercentage();
 		let progress2 = Amplitude.getBuffered();
-		progress_bar.style.backgroundSize = progress1 + '% 100%, ' + progress2 + '% 100%';;
+		if (progress1 != 0) progress1 += '%';
+		if (progress2 != 0) progress2 += '%';
+		progress_bar.style.backgroundSize = progress1 + ' 100%, ' + progress2 + ' 100%';
 	};
 
 	let updateSelection = () => {

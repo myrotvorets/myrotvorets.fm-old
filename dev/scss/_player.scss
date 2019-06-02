@@ -20,6 +20,10 @@
 		}
 	}
 
+	progress {
+		display: none;
+	}
+
 	.control-container button > svg {
 		width: 40px;
 		height: 40px;
@@ -71,6 +75,6 @@
 	.progress-bar {
 		background: url(../img/bg.svg#fec602), url(../img/bg.svg#53598);
 		background-repeat: repeat-y;
-		background-size: 0 100%, 0% 100%;
+		background-size: 0 100%, 0 100%;
 	}
 }

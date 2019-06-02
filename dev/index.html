@@ -5,6 +5,8 @@
 <title>Myrotvorets FM</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 <meta name="description" content="Радіо «Миротворець»"/>
+<link rel="preconnect" href="https://pagead2.googlesyndication.com"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
 <!-- build:remove -->
 <script src="js/scss-loader.js"></script>
 <link type="text/scss" href="scss/all.scss"/>
@@ -20,7 +22,7 @@
 <meta name="msapplication-TileImage" content="img/logo70.png"/>
 <meta name="theme-color" content="#001E3E"/>
 <link rel="manifest" href="manifest.json"/>
-<script src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js' async="async"></script>
+<script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async="async"></script>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: 'ca-pub-4220354819998628', enable_page_level_ads: true });
 </script>
@@ -28,7 +30,12 @@
 <body>
 	<div class="measure px1 d-flex flex-column" id="container">
 		<header>
-			<h1 class="m0 p0 txt--center"><img src="img/header.png" class="img-responsive block-centered" alt="Radio Myrotvorets"/></h1>
+			<h1 class="m0 p0 txt--center">
+				<picture>
+					<source srcset="img/header.webp" type="image/webp"/>
+					<img src="img/header.png" class="img-responsive block-centered" alt="Radio Myrotvorets"/>
+				</picture>
+			</h1>
 		</header>
 
 		<noscript>
@@ -40,8 +47,8 @@
 		<div class="bg--red fnt--white bold p1 mb1 txt--center" role="alert" id="error" hidden="hidden"></div>
 
 		<div id="player" class="p1" hidden="hidden">
-			<progress class="amplitude-song-played-progress" value="0" hidden="hidden"></progress>
-			<progress class="amplitude-buffered-progress" value="0" hidden="hidden"></progress>
+			<progress class="amplitude-song-played-progress" value="0"></progress>
+			<progress class="amplitude-buffered-progress" value="0"></progress>
 
 			<div class="d-flex flex-align-items-center mb1">
 				<div class="pr1">
@@ -90,7 +97,7 @@
 						<path d="M12 12h4v24h-4zm7 12l17 12V12"/>
 					</svg>
 				</button>
-				<button class="amplitude-play-pause" aria-label="Відтворення / пауза">
+				<button class="amplitude-play-pause amplitude-paused" aria-label="Відтворення / пауза">
 					<svg viewBox="0 0 47 47">
 						<path d="M16 10v28l22-14"/>
 					</svg>
