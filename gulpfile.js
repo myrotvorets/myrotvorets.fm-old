@@ -3,7 +3,6 @@
 const gulp         = require('gulp');
 const del          = require('del');
 const rsync        = require('rsyncwrapper');
-const rename       = require('gulp-rename');
 const sourcemaps   = require('gulp-sourcemaps');
 const sass         = require('gulp-sass');
 const postcss      = require('gulp-postcss');
@@ -25,11 +24,9 @@ const useref       = require('gulp-useref');
 const gulpif       = require('gulp-if');
 const hashmap      = require('inline-csp-hash');
 const babel        = require('gulp-babel');
+const lazypipe     = require('lazypipe');
 
 const config       = require('./.internal/config.json');
-const debug        = require('gulp-debug');
-const lazypipe     = require('lazypipe');
-const filter       = require('gulp-filter');
 
 gulp.task('html', () => {
 	const src  = 'dev/index.html';
@@ -48,7 +45,7 @@ gulp.task('html', () => {
 		))
 		.pipe(gulpif('*.js', uglify()))
 		.pipe(gulpif('*.css', postcss([
-			autoprefixer({browsers: '> 5%'}),
+			autoprefixer(),
 			cssnano({
 				preset: ['default', { discardComments: { removeAll: true } }]
 			})
@@ -82,7 +79,7 @@ gulp.task('images', () => {
 		.pipe(
 			imagemin([
 				imagemin.gifsicle({ interlaced: true }),
-				imagemin.jpegtran({ progressive: true }),
+				imagemin.mozjpeg({ progressive: true }),
 				imagemin.optipng({ optimizationLevel: 7 }),
 				imagemin.svgo({
 					plugins: [
@@ -105,7 +102,7 @@ gulp.task('critical', gulp.series([
 				base: 'dist/',
 				inline: true,
 				minify: true,
-				extract: !true,
+				extract: true,
 				dimensions: [
 					{ height: 1000, width: 383 },
 					{ height: 1000, width: 384 },
@@ -209,26 +206,13 @@ gulp.task('bundle-sw', gulp.series([
 			swDest:         './dist/sw.js',
 			globPatterns:   ['**\/*.{html,js,css,png,gif}'],
 			globIgnores:    ['js/combined.js'],
-			dontCacheBustUrlsMatching: /-[a-f0-9]{10}\./,
+			dontCacheBustURLsMatching: /-[a-f0-9]{10}\./,
 			skipWaiting: true,
 			clientsClaim: true,
 			runtimeCaching: [
 				{
-					urlPattern: /^https:\/\/cdnjs\.cloudflare\.com\//,
-					handler: 'cacheFirst',
-					options: {
-						cacheName: 'cdn-cache',
-						expiration: {
-							maxEntries: 100
-						},
-						cacheableResponse: {
-							statuses: [0, 200]
-						}
-					}
-				},
-				{
 					urlPattern: /^https:\/\/psb4ukr\.natocdn\.net\/mp3\/playlist\.txt/,
-					handler: 'staleWhileRevalidate',
+					handler: 'StaleWhileRevalidate',
 					options: {
 						cacheName: 'playlist-cache',
 						expiration: {
@@ -296,4 +280,15 @@ gulp.task('download', function(done) {
 	});
 });
 
-gulp.task('default', gulp.series([gulp.parallel(['html', 'images']), 'critical', 'inline-hash', 'sri', 'gitrev', 'bundle-sw', 'copy']));
+gulp.task(
+	'default',
+	gulp.series([
+		gulp.parallel(['html', 'images']),
+		'critical',
+		'inline-hash',
+		'sri',
+		'gitrev',
+		'bundle-sw',
+		'copy'
+	])
+);

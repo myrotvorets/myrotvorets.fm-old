@@ -2,3 +2,4 @@
 .internal/password
 /dev/css/
 /dist/
+/node_modules/
